@@ -1,0 +1,2 @@
+stow vim
+stow zsh
