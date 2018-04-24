@@ -284,3 +284,11 @@ alias vags='vagrant gatling-rsync-auto'
 alias pespa='psenv start platformcore app'
 alias cherry='git cherry-pick'
 alias reload='source ~/.zshrc'
+
+
+
+
+############
+# AUTOJUMP #
+############
+[ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
