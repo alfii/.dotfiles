@@ -1,8 +1,9 @@
-set clipboard=unnamedplus
 execute pathogen#infect()
-filetype plugin indent on
 syntax enable
 set number
+set autoindent
+filetype plugin indent on
+set expandtab
+set shiftwidth=4
 
 colorscheme darcula
-

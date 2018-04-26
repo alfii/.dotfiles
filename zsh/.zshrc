@@ -286,6 +286,7 @@ alias cherry='git cherry-pick'
 alias reload='source ~/.zshrc'
 
 
+alias drma='sh ~/.scripts/removeDockerImagesAndContainers.sh'
 
 
 ############
