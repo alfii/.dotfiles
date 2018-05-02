@@ -284,6 +284,8 @@ alias vags='vagrant gatling-rsync-auto'
 alias pespa='psenv start platformcore app'
 alias cherry='git cherry-pick'
 alias reload='source ~/.zshrc'
+alias mci='mvn clean install -DskipTests'
+alias mcit='mvn clean install'
 
 
 alias drma='sh ~/.scripts/removeDockerImagesAndContainers.sh'
