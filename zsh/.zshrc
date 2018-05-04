@@ -106,11 +106,23 @@ unalias -m 'gp'
 unalias -m 'gcmsg'
 #interesting
 #git reset --hard ORIG_HEAD # reset, rebase and merge all save your original HEAD pointer into ORIG_HEAD
+
+########################
+# Shell specific
+########################
+alias reload='source ~/.zshrc'
+
+########################
+# Navigation shortcuts
+########################
 alias cdc='cd ~/code' #quickly go to the folder where you keeo your code
 alias cdp='cd ~/code/docker-env/checkout/portal'
-alias hem='cd ~/code/health-economy-module'
-alias listener='cd ~/code/health-economy-module && sh startListener.sh'
-alias hemt='cd ~/code/hem-test'
+
+########################
+# Git
+########################
+
+# Aliases #
 alias gs='git status'
 alias ga='git add'
 alias ga.='git add .'
@@ -137,13 +149,126 @@ alias grc='git rebase --continue'
 alias dry='git remote prune origin --dry-run && echo "would delete these local branches:" && git branch --merged | egrep -v "(^\*|master|development|develop|release*)"'
 alias prune='git remote prune origin && git branch --merged | egrep -v "(^\*|master|development|develop|release*)" | xargs git branch -d'
 alias copy='git branch -D copy && git branch copy && echo "Created branch copy"'
-alias mci='mvn clean install'
+alias cherry='git cherry-pick'
+
+# Functions #
+# Print git log pretty oneline
+function glp(){
+    amount=${1:-30}
+    git --no-pager -c color.ui=always log --pretty=format:'%C(yellow)%h|%C(magenta)%ad|%Cblue%an|%Cgreen%d %Creset%s' --date=short -$amount| column -ts'|'
+}
+# Show latest or given commit
+function show(){
+    commit=${1:-}
+    if [ -z "$commit" ]
+    then
+          git --no-pager show
+    else
+        if [ "${#commit}" -gt 8 ]
+        then
+        git --no-pager diff $commit^!
+      else
+        git --no-pager diff @~$commit^!
+      fi
+    fi
+}
+# Rebase on commit, handy for amending earlier commits or to squash commits
+function gri(){
+    : "${1?Missing commit}"
+    commit=$1
+    git rebase -i $commit
+}
+# Checkout first branch that has the given number in it by grepping
+function gcg(){
+    : "${1?Missing issue number}"
+    issue=$1
+    git checkout $(git branch | grep $issue | sed -n 1p)
+}
+# Soft reset of commits
+function soft(){
+    number=${1:-1}
+    git reset --soft head~$number && git reset
+}
+
+###########################
+# Startup
+###########################
+alias vagup='vagrant up'
+alias vags='vagrant gatling-rsync-auto'
+alias pespa='psenv start platformcore app'
+
+###########################
+# Maven
+###########################
+alias mci='mvn clean install -DskipTests'
+alias mcit='mvn clean install'
+
+############################
+# Docker
+############################
+# Aliases #
 alias di='docker images'
 alias dpsa='docker ps -a'
 alias drm='docker rm $(docker ps -a -q)'
 alias drmi='docker rmi $(docker images -q -f dangling=true)'
+alias drma='sh ~/.scripts/removeDockerImagesAndContainers.sh'
+
+# Functions #
+# Print env variables of the latest docker container
+function denv(){
+    id=$(docker ps --format '{{.ID}}')
+    docker inspect --format '{{ index (index .Config.Env) }}' $id
+}
+# Go into the latest docker container
+function dex(){
+    id=$(docker ps --format '{{.ID}}')
+    docker exec -it $id bash
+}
+# Docker build with name and image
+function db(){
+    : "${1?Missing name}"
+    cd docker
+    name=$1
+    echo "docker build -t $name . "
+    docker build -t $name . 
+}
+# Docker run with image
+function dr(){
+    : "${1?Missing image}"
+    port=${2:-80}
+    image=$1
+    echo "docker run -it --env-file env-file -p 8080:$port $image"
+    docker run -it --env-file env-file -p 8080:$port $image
+}
+
+############################
+# Building for java projects
+############################
+
+# Aliases
 alias bca='bin/createArtifacts'
 alias abi='artifacts/buildImages'
+
+# Functions
+# createArtifacts, buildImages and docker run
+function run(){
+    port=${1:-8080}
+    echo '*********************'
+    echo '** createArtifacts **'
+    echo '*********************'
+    bin/createArtifacts
+    echo '*****************'
+    echo '** buildImages **'
+    echo '*****************'
+    artifacts/buildImages
+    imageName=$(grep -o '"imageName": "[^"]*' serviceDefinition.json | grep -o '[^"]*$')
+    echo '*********************************************'
+    echo "** run dockerimage $imageName on port $port **"
+    echo '*********************************************'
+    echo "docker run -it --env-file env-file -p $port:8080 $imageName"
+    docker run -it --env-file env-file -p $port:8080 $imageName
+}
+
 ##########################
 # Print functions
 ##########################
@@ -165,108 +290,7 @@ function myfunctions(){
     echo 'gri(commit) - Rebase on commit, handy for amending earlier commits or to squash commits'
     echo 'soft([number]) - Unstage files and remove latest, or given number of commits. Work is not lost, only unstaged'
 }
-#####################################################
-# Print env variables of the latest docker container
-#####################################################
-function denv(){
-    id=$(docker ps --format '{{.ID}}')
-    docker inspect --format '{{ index (index .Config.Env) }}' $id
-}
-######################################
-# Go into the latest docker container
-#####################################
-function dex(){
-    id=$(docker ps --format '{{.ID}}')
-    docker exec -it $id bash
-}
     
-##############################################
-# createArtifacts, buildImages and docker run
-##############################################
-function run(){
-    port=${1:-8080}
-    echo '*********************'
-    echo '** createArtifacts **'
-    echo '*********************'
-    bin/createArtifacts
-    echo '*****************'
-    echo '** buildImages **'
-    echo '*****************'
-    artifacts/buildImages
-    imageName=$(grep -o '"imageName": "[^"]*' serviceDefinition.json | grep -o '[^"]*$')
-    echo '*********************************************'
-    echo "** run dockerimage $imageName on port $port **"
-    echo '*********************************************'
-    echo "docker run -it --env-file env-file -p $port:8080 $imageName"
-    docker run -it --env-file env-file -p $port:8080 $imageName
-}
-###################################
-# Docker build with name and image
-##################################
-function db(){
-    : "${1?Missing name}"
-    cd docker
-    name=$1
-    echo "docker build -t $name . "
-    docker build -t $name . 
-}
-#########################
-# Docker run with image
-#########################
-function dr(){
-    : "${1?Missing image}"
-    port=${2:-80}
-    image=$1
-    echo "docker run -it --env-file env-file -p 8080:$port $image"
-    docker run -it --env-file env-file -p 8080:$port $image
-}
-#################################
-# Print git log pretty oneline
-#################################
-function glp(){
-    amount=${1:-30}
-    git --no-pager -c color.ui=always log --pretty=format:'%C(yellow)%h|%C(magenta)%ad|%Cblue%an|%Cgreen%d %Creset%s' --date=short -$amount| column -ts'|'
-}
-#################################
-# Show latest or given commit
-#################################
-function show(){
-    commit=${1:-}
-    if [ -z "$commit" ]
-    then
-          git --no-pager show
-    else
-        if [ "${#commit}" -gt 8 ]
-        then
-        git --no-pager diff $commit^!
-      else
-        git --no-pager diff @~$commit^!
-      fi
-    fi
-}
-############################################################################
-# Rebase on commit, handy for amending earlier commits or to squash commits
-############################################################################
-function gri(){
-    : "${1?Missing commit}"
-    commit=$1
-    git rebase -i $commit
-}
-####################################################################
-# Checkout first branch that has the given number in it by grepping
-####################################################################
-function gcg(){
-    : "${1?Missing issue number}"
-    issue=$1
-    git checkout $(git branch | grep $issue | sed -n 1p)
-}
-########################
-# Soft reset of commits
-########################
-function soft(){
-    number=${1:-1}
-    git reset --soft head~$number && git reset
-}
 
 autoload -U promptinit; promptinit
 prompt pure
@@ -275,23 +299,5 @@ prompt pure
 
 
 
-##########
-# ALFMODS
-##########
-bindkey '^R' history-incremental-search-backward
-alias vagup='vagrant up'
-alias vags='vagrant gatling-rsync-auto'
-alias pespa='psenv start platformcore app'
-alias cherry='git cherry-pick'
-alias reload='source ~/.zshrc'
-alias mci='mvn clean install -DskipTests'
-alias mcit='mvn clean install'
 
 
-alias drma='sh ~/.scripts/removeDockerImagesAndContainers.sh'
-
-
-############
-# AUTOJUMP #
-############
-[ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
