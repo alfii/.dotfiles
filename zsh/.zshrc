@@ -420,3 +420,39 @@ fpath=($HOME/.zsh-completions $fpath)
 autoload -U compinit
 compinit
 
+function updateComment(){
+    gitrepos=("DEVTOOL-33-update-dockerfile" "DEVTOOL-33-update-image")
+    echo gitrepos
+    directories=($(ls -d */))
+    isingitrepo=false
+    for dir in "${directories[@]}"
+    do
+        cd $dir
+        for gitrepo in "${gitrepos[@]}" do
+            gc gitrepo
+            if [[ "$(git rev-parse --abbrev-ref HEAD)" = "$gitrepo" ]] then
+                $isingitrepo=true
+            fi
+        done
+        if [[ "$isingitrepo" = false ]] then
+            break
+            echo "nothing here"
+        fi
+        innerdirectories=($(ls -d */))
+        for innerdir in "${innerdirectories[@]}" do
+            if [[ "$innerdir" = "docker/" ]] then
+                cd docker
+                echo 'In directory $innerdir' on branch $(git rev-parse --abbrev-ref HEAD)
+                #sed -i '' "s/messagehandler//" Dockerfile
+                #sed -i '' "s/messagehandler//" app
+                #sed -i '' "s/messagehandler//" systemeventhandler
+                cd ..
+                gcam "Update comment"
+                git push
+                echo "pushed"
+            fi
+        done
+                
+        cd ..
+    end
+}
