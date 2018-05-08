@@ -63,7 +63,7 @@ ZSH_THEME="robbyrussell"
 [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
 
 source $ZSH/oh-my-zsh.sh
-source .$USER
+source ~/.$USER
 
 # User configuration
 
@@ -212,7 +212,7 @@ alias di='docker images'
 alias dpsa='docker ps -a'
 alias drm='docker rm $(docker ps -a -q)'
 alias drmi='docker rmi $(docker images -q -f dangling=true)'
-alias drma='sh ~/.scripts/removeDockerImagesAndContainers.sh'
+alias drma='drmi && drm'
 
 # Functions #
 # Print env variables of the latest docker container
