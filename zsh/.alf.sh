@@ -81,38 +81,40 @@ function _updateDockerfiles(){
 
 function updateComment(){
     gitrepos=("DEVTOOL-33-update-dockerfile" "DEVTOOL-33-update-image")
-    echo gitrepos
     directories=($(ls -d */))
-    isingitrepo=false
     for dir in "${directories[@]}"
     do
+        isingitrepo=false
         cd $dir
-        for gitrepo in "${gitrepos[@]}" do
-            gc gitrepo
+        for gitrepo in "${gitrepos[@]}"
+        do
+            git checkout $gitrepo
             if [[ "$(git rev-parse --abbrev-ref HEAD)" = "$gitrepo" ]] then
-                $isingitrepo=true
+                isingitrepo=true
+                echo $gitrepo
             fi
         done
-        if [[ "$isingitrepo" = false ]] then
-            break
-            echo "nothing here"
+        if $isingitrepo
+        then
+            innerdirectories=($(ls -d */))
+            for innerdir in "${innerdirectories[@]}"
+            do
+                if [[ "$innerdir" = "docker/" ]]
+                then
+                    cd docker
+                    sed -i '' "s/messagehandler//g" Dockerfile
+                    sed -i '' "s/messagehandler//g" app
+                    sed -i '' "s/messagehandler//g" systemeventhandler
+                    cd ..
+                    git commit -a -m "Update comment"
+                    git push
+                    echo "pushed"
+                fi
+            done
         fi
-        innerdirectories=($(ls -d */))
-        for innerdir in "${innerdirectories[@]}" do
-            if [[ "$innerdir" = "docker/" ]] then
-                cd docker
-                echo 'In directory $innerdir' on branch $(git rev-parse --abbrev-ref HEAD)
-                #sed -i '' "s/messagehandler//" Dockerfile
-                #sed -i '' "s/messagehandler//" app
-                #sed -i '' "s/messagehandler//" systemeventhandler
-                cd ..
-                gcam "Update comment"
-                git push
-                echo "pushed"
-            fi
-        done
                 
         cd ..
     done
+
 }
 

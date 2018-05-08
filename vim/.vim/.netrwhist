@@ -1,11 +1,2 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =9
-let g:netrw_dirhist_1='/Users/alf/code/docker-env/checkout/communication'
-let g:netrw_dirhist_2='/Users/alf/code/docker-env/checkout/communication/src'
-let g:netrw_dirhist_3='/Users/alf/code/docker-env/checkout/communication/src/AppBundle'
-let g:netrw_dirhist_4='/Users/alf/code/docker-env/checkout/communication/src'
-let g:netrw_dirhist_5='/Users/alf/code/docker-env/checkout/communication/src/AppBundle'
-let g:netrw_dirhist_6='/Users/alf/code/docker-env/checkout/communication/src/AppBundle/Command'
-let g:netrw_dirhist_7='/Users/alf/code/docker-env/checkout/communication/src/AppBundle/Command/CLI'
-let g:netrw_dirhist_8='/Users/alf/code/java-platform-message-broker/docker'
-let g:netrw_dirhist_9='/Users/alf/.vim'
+let g:netrw_dirhist_cnt =0
