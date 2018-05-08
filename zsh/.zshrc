@@ -58,11 +58,12 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(
-  git composer vi-mode
-)
+
+# Autojump
+[ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
 
 source $ZSH/oh-my-zsh.sh
+source .$USER
 
 # User configuration
 
@@ -295,82 +296,9 @@ function myfunctions(){
 autoload -U promptinit; promptinit
 prompt pure
 
-
-
-
-
-function updateDocker(){
-    if [ -f "docker/Dockerfile" ]
-    then
-        _updateDockerfile
-    fi
-    if [[ -f "docker/app" || -f "docker/systemeventhandler" ]]
-    then
-        _updateDockerfiles
-    fi
-}
-
-function _updateDockerfile(){
-    # Change FROM baseimage to new and updated one
-    sed -i '' "s/FROM.*/FROM odn1-nexus-docker.privatedns.zone\/ps\/java-single-instance:master/" docker/Dockerfile
-    # Remove MAINTAINER statement
-    sed -i '' "/MAINTAINER.*/d" docker/Dockerfile
-    # Change /data to /home/app in the Dockerfile
-    sed -i '' "s/\/data/\/home\/app/g" docker/Dockerfile
-    # Change service.jar to a more meaningful name; In this case it is the name of the project
-    sed -i '' "s/service.jar/$(basename $PWD).jar/g" docker/Dockerfile
-    sed -i '' "s/service.jar/$(basename $PWD).jar/g" bin/createArtifacts
-
-    # Get memory limit fields from serviceDefinition.json and store them in new file memorylimit
-    jq '.services[].resources.limits.memory' serviceDefinition.json > memorylimit
-    if [ $(cat memorylimit) != "null" ]
-    then
-        # Double numbers in memorylimit
-        NUMBER=$(sed 's/[^0-9]*//g' memorylimit)
-        sed -i '' "s/$NUMBER/$(($NUMBER * 2))/" memorylimit
-        # Write a new serviceDefinition.json with the new memory limits
-        MEMORYLIMIT=$(cat memorylimit)
-        jq ".services[].resources.limits.memory = $MEMORYLIMIT" serviceDefinition.json > newserviceDefinition.json
-        # Remove files no longed needed and replace serviceDefinition with the new serviceDefinition
-        rm serviceDefinition.json
-        mv newserviceDefinition.json serviceDefinition.json
-    fi
-    rm memorylimit
-
-}
-function _updateDockerfiles(){
-    # Change FROM baseimage to new and updated one
-    sed -i '' "s/FROM.*/FROM odn1-nexus-docker.privatedns.zone\/ps\/java-single-instance:master/" docker/systemeventhandler
-    sed -i '' "s/FROM.*/FROM odn1-nexus-docker.privatedns.zone\/ps\/java-single-instance:master/" docker/app
-    # Remove MAINTAINER statement
-    sed -i '' "/MAINTAINER.*/d" docker/systemeventhandler
-    sed -i '' "/MAINTAINER.*/d" docker/app
-    # Change /data to /home/app in the Dockerfile
-    sed -i '' "s/\/data/\/home\/app/g" docker/systemeventhandler
-    sed -i '' "s/\/data/\/home\/app/g" docker/app
-    # Change service.jar to a more meaningful name; In this case it is the name of the project
-    sed -i '' "s/service.jar/$(basename $PWD).jar/g" docker/systemeventhandler
-    sed -i '' "s/service.jar/$(basename $PWD).jar/g" docker/app
-    sed -i '' "s/service.jar/$(basename $PWD).jar/g" bin/createArtifacts
-
-    # Get memory limit fields from serviceDefinition.json and store them in new file memorylimit
-    jq '.services[].resources.limits.memory' serviceDefinition.json > memorylimit
-    # Double numbers in memorylimit
-    NUMBERS=($(sed 's/[^0-9]*//g' memorylimit))
-    for number in "${NUMBERS[@]}"
-    do
-        sed -i '' "s/$number/$(($number * 2))/" memorylimit
-    done
-    # Write a new serviceDefinition.json with the new memory limits
-    MEMORYLIMITS=($(cat memorylimit))
-    for limit in "${MEMORYLIMITS[@]}"
-    do
-        jq ".services[].resources.limits.memory |= $limit" serviceDefinition.json > newserviceDefinition.json
-    done
-
-    # Remove files no longed needed and replace serviceDefinition with the new serviceDefinition
-    rm serviceDefinition.json
-    rm memorylimit
-    mv newserviceDefinition.json serviceDefinition.json
-}
+# syntax higlighting https://github.com/zsh-users/zsh-syntax-highlighting/blob/master/INSTALL.md
+source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fpath=($HOME/.zsh-completions $fpath)
+autoload -U compinit
+compinit
 
