@@ -63,7 +63,7 @@ ZSH_THEME="robbyrussell"
 [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
 
 source $ZSH/oh-my-zsh.sh
-source ~/.$USER.sh
+source ~/.dotfiles/.$USER.sh
 
 # User configuration
 
