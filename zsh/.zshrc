@@ -100,11 +100,14 @@ source ~/.dotfiles/.$USER.sh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
 # unalias -m '*'
+unalias -m 'gr'
 unalias -m 'glp'
 unalias -m 'gra'
 unalias -m 'gaa'
 unalias -m 'gp'
 unalias -m 'gcmsg'
+unalias -m 'gcp'
+unalias -m 'gps'
 #interesting
 #git reset --hard ORIG_HEAD # reset, rebase and merge all save your original HEAD pointer into ORIG_HEAD
 
@@ -136,7 +139,6 @@ alias gd='git --no-pager diff' # show whole diff in terminal
 alias gcam='git add -A && git commit -m' # commits all files, staged, unstaged and untracked. just apply the commit message
 alias gcamc='git add -A && git commit -m "cleaning"'
 alias gcm='git commit -m'
-alias gps='git push'
 alias gpl='git pull'
 alias stash='git stash'
 alias pop='git stash pop'
@@ -144,6 +146,8 @@ alias amend='git commit --amend'
 alias amenda='git add . && git commit --amend --no-edit'
 alias mstr='git checkout master'
 alias dev='git checkout develop'
+alias gr='git rebase'
+alias grm='git pull --rebase origin master'
 alias grd='git pull --rebase origin develop'
 alias gra='git rebase --abort'
 alias grc='git rebase --continue'
@@ -151,12 +155,28 @@ alias dry='git remote prune origin --dry-run && echo "would delete these local b
 alias prune='git remote prune origin && git branch --merged | egrep -v "(^\*|master|development|develop|release*)" | xargs git branch -d'
 alias copy='git branch -D copy && git branch copy && echo "Created branch copy"'
 alias cherry='git cherry-pick'
+alias parent='git show-branch -a | grep "\*" | grep -v `git rev-parse --abbrev-ref HEAD` | head -n1 | sed "s/.*\[\(.*\)\].*/\1/" | sed "s/[\^~].*//"'
 
 # Functions #
 # Print git log pretty oneline
 function glp(){
     amount=${1:-30}
     git --no-pager -c color.ui=always log --pretty=format:'%C(yellow)%h|%C(magenta)%ad|%Cblue%an|%Cgreen%d %Creset%s' --date=short -$amount| column -ts'|'
+}
+# Print git log pretty oneline long commit
+function glpl(){
+    amount=${1:-30}
+    git --no-pager -c color.ui=always log --pretty=format:'%C(yellow)%H|%C(magenta)%ad|%Cblue%an|%Cgreen%d %Creset%s' --date=format:'%Y-%m-%d %H:%M:%S' -$amount| column -ts'|'
+}
+# Print git log pretty oneline affected files
+function glpf(){
+    amount=${1:-10}
+    git --no-pager -c color.ui=always log --pretty=format:'%C(yellow)%h|%C(magenta)%ad|%Cblue%an|%Cgreen%d %Creset%s' --date=format:'%Y-%m-%d %H:%M:%S' --stat -$amount
+}
+# Print git log pretty oneline long commit affected files
+function glpfl(){
+    amount=${1:-10}
+    git --no-pager -c color.ui=always log --pretty=format:'%C(yellow)%H|%C(magenta)%ad|%Cblue%an|%Cgreen%d %Creset%s' --date=format:'%Y-%m-%d %H:%M:%S' --stat -$amount
 }
 # Show latest or given commit
 function show(){
@@ -172,6 +192,16 @@ function show(){
         git --no-pager diff @~$commit^!
       fi
     fi
+}
+# Show files in latest or given commit
+function showf(){
+    commit=${1:-HEAD}
+        git diff-tree --no-commit-id --name-only -r $commit
+}
+# Show difference in commits between HEAD and given commit
+function gdc(){
+    commit=${1:-master}
+        git -c color.ui=always log --pretty=format:'%C(yellow)%h|%C(magenta)%ad|%Cblue%an|%Cgreen%d %Creset%s' --date=format:'%Y-%m-%d %H:%M:%S' --abbrev-commit $commit..HEAD | column -ts'|'      
 }
 # Rebase on commit, handy for amending earlier commits or to squash commits
 function gri(){
@@ -190,19 +220,33 @@ function soft(){
     number=${1:-1}
     git reset --soft head~$number && git reset
 }
+# Push branch and create upstream if doesn't exist
+function gps(){
+    git push -u origin $(git rev-parse --abbrev-ref HEAD)
+}
+# Create pull request
+function gpr(){
+    branch=$(git rev-parse --abbrev-ref HEAD)
+    remote=$(git config --get remote.origin.url | cut -c 5- | tr : / | sed 's/.\{4\}$//')
+    open "https://www.$remote/pull-requests/new?source=$branch&t=1"
+}
 
 ###########################
-# Startup
+# Platfrom
 ###########################
 alias vagup='vagrant up'
 alias vags='vagrant gatling-rsync-auto'
 alias pespa='psenv start platformcore app'
+alias vsc='vagrant ssh -c'
+alias vdpsa='vagrant ssh -c "docker ps -a"'
+alias vdrm='vagrant ssh -c "docker rm $(docker ps -a -q)"'
+alias vdrmi='vagrant ssh -c "docker rmi $(docker images -q -f dangling=true)"'
 
 ###########################
 # Maven
 ###########################
-alias mci='mvn clean install -DskipTests'
-alias mcit='mvn clean install'
+alias mci='mvn clean install'
+alias mcit='mvn clean install -DskipTests'
 
 ############################
 # Docker
