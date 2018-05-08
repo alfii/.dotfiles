@@ -230,6 +230,13 @@ function gpr(){
     remote=$(git config --get remote.origin.url | cut -c 5- | tr : / | sed 's/.\{4\}$//')
     open "https://www.$remote/pull-requests/new?source=$branch&t=1"
 }
+# Delete a branch on origin (bitbucket) and push the local version
+# Workaraound when force push is not allowd
+function gps-f(){
+    branch=$(git rev-parse --abbrev-ref HEAD)
+    git push -d origin $branch
+    git push
+}
 
 ###########################
 # Platfrom
