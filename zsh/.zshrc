@@ -198,12 +198,12 @@ function show(){
 # Show files in latest or given commit
 function showf(){
     commit=${1:-HEAD}
-        git diff-tree --no-commit-id --name-only -r $commit
+    git diff-tree --no-commit-id --name-only -r $commit
 }
 # Show difference in commits between HEAD and given commit
 function gdc(){
     commit=${1:-master}
-        git -c color.ui=always log --pretty=format:'%C(yellow)%h|%C(magenta)%ad|%Cblue%an|%Cgreen%d %Creset%s' --date=format:'%Y-%m-%d %H:%M:%S' --abbrev-commit $commit..HEAD | column -ts'|'      
+    git -c color.ui=always log --pretty=format:'%C(yellow)%h|%C(magenta)%ad|%Cblue%an|%Cgreen%d %Creset%s' --date=format:'%Y-%m-%d %H:%M:%S' --abbrev-commit $commit..HEAD | column -ts'|'      
 }
 # Rebase on commit, handy for amending earlier commits or to squash commits
 function gri(){
@@ -230,7 +230,12 @@ function gps(){
 function gpr(){
     branch=$(git rev-parse --abbrev-ref HEAD)
     remote=$(git config --get remote.origin.url | cut -c 5- | tr : / | sed 's/.\{4\}$//')
-    open "https://www.$remote/pull-requests/new?source=$branch&t=1"
+    if [[ $remote = *"bitbucket"* ]];
+    then
+        open "https://www.$remote/pull-requests/new?source=$branch&t=1"
+    else
+        open "https://www.$remote/compare/master...$branch"
+    fi
 }
 # Delete a branch on origin (bitbucket) and push the local version
 # Workaraound when force push is not allowd
@@ -345,7 +350,6 @@ function myfunctions(){
     echo 'soft([number]) - Unstage files and remove latest, or given number of commits. Work is not lost, only unstaged'
 }
     
-
 autoload -U promptinit; promptinit
 prompt pure
 
