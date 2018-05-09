@@ -108,6 +108,7 @@ unalias -m 'gp'
 unalias -m 'gcmsg'
 unalias -m 'gcp'
 unalias -m 'gps'
+unalias -m 'gfc'
 #interesting
 #git reset --hard ORIG_HEAD # reset, rebase and merge all save your original HEAD pointer into ORIG_HEAD
 
@@ -141,7 +142,6 @@ alias gcam='git add -A && git commit -m' # commits all files, staged, unstaged a
 alias gcamc='git add -A && git commit -m "cleaning"'
 alias gcm='git commit -m'
 alias gpl='git pull'
-alias gfc='git fetch && git checkout'
 alias stash='git stash'
 alias pop='git stash pop'
 alias amend='git commit --amend'
@@ -216,6 +216,13 @@ function gcg(){
     : "${1?Missing issue number}"
     issue=$1
     git checkout $(git branch | grep $issue | sed -n 1p)
+}
+# Checkout first remote branch that has the given number in it by grepping
+function gfc(){
+    : "${1?Missing issue number}"
+    issue=$1
+    git fetch
+    git checkout $(git branch -r | grep $issue | sed -n 1p | cut -c 10-)
 }
 # Soft reset of commits
 function soft(){
