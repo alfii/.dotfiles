@@ -101,6 +101,7 @@ source ~/.dotfiles/.$USER.sh
 # For a full list of active aliases, run `alias`.
 # unalias -m '*'
 unalias -m 'gr'
+unalias -m 'gl'
 unalias -m 'glp'
 unalias -m 'gra'
 unalias -m 'gaa'
@@ -131,7 +132,6 @@ alias cdp='cd ~/code/docker-env/checkout/portal'
 alias gs='git status'
 alias ga='git add'
 alias ga.='git add .'
-alias gl='git log'
 alias gc='git checkout'
 alias gc.='git checkout .'
 alias gb='git --no-pager branch'
@@ -161,24 +161,24 @@ alias parent='git show-branch -a | grep "\*" | grep -v `git rev-parse --abbrev-r
 
 # Functions #
 # Print git log pretty oneline
-function glp(){
-    amount=${1:-30}
-    git --no-pager -c color.ui=always log --pretty=format:'%C(yellow)%h|%C(magenta)%ad|%Cblue%an|%Cgreen%d %Creset%s' --date=short -$amount| column -ts'|'
-}
-# Print git log pretty oneline long commit
-function glpl(){
+function gl(){
     amount=${1:-30}
     git --no-pager -c color.ui=always log --pretty=format:'%C(yellow)%H|%C(magenta)%ad|%Cblue%an|%Cgreen%d %Creset%s' --date=format:'%Y-%m-%d %H:%M:%S' -$amount| column -ts'|'
 }
-# Print git log pretty oneline affected files
-function glpf(){
-    amount=${1:-10}
-    git --no-pager -c color.ui=always log --pretty=format:'%C(yellow)%h|%C(magenta)%ad|%Cblue%an|%Cgreen%d %Creset%s' --date=format:'%Y-%m-%d %H:%M:%S' --stat -$amount
+# Print git log pretty oneline short commit
+function gls(){
+    amount=${1:-30}
+    git --no-pager -c color.ui=always log --pretty=format:'%C(yellow)%h|%C(magenta)%ad|%Cblue%an|%Cgreen%d %Creset%s' --date=short -$amount| column -ts'|'
 }
-# Print git log pretty oneline long commit affected files
-function glpfl(){
+# Print git log pretty oneline affected files
+function glf(){
     amount=${1:-10}
     git --no-pager -c color.ui=always log --pretty=format:'%C(yellow)%H|%C(magenta)%ad|%Cblue%an|%Cgreen%d %Creset%s' --date=format:'%Y-%m-%d %H:%M:%S' --stat -$amount
+}
+# Print git log pretty oneline short commit affected files
+function glfs(){
+    amount=${1:-10}
+    git --no-pager -c color.ui=always log --pretty=format:'%C(yellow)%h|%C(magenta)%ad|%Cblue%an|%Cgreen%d %Creset%s' --date=format:'%Y-%m-%d %H:%M:%S' --stat -$amount
 }
 # Show latest or given commit
 function show(){
