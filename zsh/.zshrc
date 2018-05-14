@@ -175,12 +175,12 @@ function gls(){
 # Print git log pretty oneline affected files
 function glf(){
     amount=${1:-10}
-    git --no-pager -c color.ui=always log --pretty=format:'%C(yellow)%H|%C(magenta)%ad|%Cblue%an|%Cgreen%d %Creset%s' --date=format:'%Y-%m-%d %H:%M:%S' --stat -$amount
+    git --no-pager -c color.ui=always log --pretty=format:'%C(yellow)%H | %C(magenta)%ad | %Cblue%an | %Cgreen%d %Creset%s' --date=format:'%Y-%m-%d %H:%M:%S' --stat -$amount
 }
 # Print git log pretty oneline short commit affected files
 function glfs(){
     amount=${1:-10}
-    git --no-pager -c color.ui=always log --pretty=format:'%C(yellow)%h|%C(magenta)%ad|%Cblue%an|%Cgreen%d %Creset%s' --date=format:'%Y-%m-%d %H:%M:%S' --stat -$amount
+    git --no-pager -c color.ui=always log --pretty=format:'%C(yellow)%h | %C(magenta)%ad | %Cblue%an | %Cgreen%d %Creset%s' --date=format:'%Y-%m-%d %H:%M:%S' --stat -$amount
 }
 # Show latest or given commit
 function show(){
