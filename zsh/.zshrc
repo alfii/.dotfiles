@@ -159,6 +159,7 @@ alias prune='git remote prune origin && git branch --merged | egrep -v "(^\*|mas
 alias copy='git branch -D copy && git branch copy && echo "Created branch copy"'
 alias cherry='git cherry-pick'
 alias parent='git show-branch -a | grep "\*" | grep -v `git rev-parse --abbrev-ref HEAD` | head -n1 | sed "s/.*\[\(.*\)\].*/\1/" | sed "s/[\^~].*//"'
+alias follow='git log --follow'
 
 # Functions #
 # Print git log pretty oneline
