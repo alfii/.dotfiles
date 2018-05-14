@@ -207,6 +207,7 @@ function gdc(){
     git -c color.ui=always log --pretty=format:'%C(yellow)%h|%C(magenta)%ad|%Cblue%an|%Cgreen%d %Creset%s' --date=format:'%Y-%m-%d %H:%M:%S' --abbrev-commit $commit..HEAD | column -ts'|'      
 }
 # Rebase on commit, handy for amending earlier commits or to squash commits
+# Argument: Base to rebase on top of
 function gri(){
     : "${1?Missing commit}"
     commit=$1
