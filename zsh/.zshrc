@@ -271,6 +271,7 @@ alias vdrmi='vagrant ssh -c "docker rmi $(docker images -q -f dangling=true)"'
 ###########################
 alias mci='mvn clean install'
 alias mcit='mvn clean install -DskipTests'
+alias mcc='mvn clean compile'
 
 ############################
 # Docker
