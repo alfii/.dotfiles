@@ -159,6 +159,7 @@ alias prune='git remote prune origin && git branch --merged | egrep -v "(^\*|mas
 alias copy='git branch -D copy && git branch copy && echo "Created branch copy"'
 alias cherry='git cherry-pick'
 alias parent='git show-branch -a | grep "\*" | grep -v `git rev-parse --abbrev-ref HEAD` | head -n1 | sed "s/.*\[\(.*\)\].*/\1/" | sed "s/[\^~].*//"'
+alias follow='git log --follow'
 
 # Functions #
 # Print git log pretty oneline
@@ -174,12 +175,12 @@ function gls(){
 # Print git log pretty oneline affected files
 function glf(){
     amount=${1:-10}
-    git --no-pager -c color.ui=always log --pretty=format:'%C(yellow)%H|%C(magenta)%ad|%Cblue%an|%Cgreen%d %Creset%s' --date=format:'%Y-%m-%d %H:%M:%S' --stat -$amount
+    git --no-pager -c color.ui=always log --pretty=format:'%C(yellow)%H | %C(magenta)%ad | %Cblue%an | %Cgreen%d %Creset%s' --date=format:'%Y-%m-%d %H:%M:%S' --stat -$amount
 }
 # Print git log pretty oneline short commit affected files
 function glfs(){
     amount=${1:-10}
-    git --no-pager -c color.ui=always log --pretty=format:'%C(yellow)%h|%C(magenta)%ad|%Cblue%an|%Cgreen%d %Creset%s' --date=format:'%Y-%m-%d %H:%M:%S' --stat -$amount
+    git --no-pager -c color.ui=always log --pretty=format:'%C(yellow)%h | %C(magenta)%ad | %Cblue%an | %Cgreen%d %Creset%s' --date=format:'%Y-%m-%d %H:%M:%S' --stat -$amount
 }
 # Show latest or given commit
 function show(){

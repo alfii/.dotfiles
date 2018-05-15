@@ -109,3 +109,4 @@ alias lpr='cd ~/code/lp-app && npm run dev'
 #db.users.findOne({_id})
 # 
 #db.users.update({_id},{$unset: {tour: true}})
+#db.users.remove({_id: ""})
