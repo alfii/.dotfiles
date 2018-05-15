@@ -359,7 +359,16 @@ function myfunctions(){
     echo 'gri(commit) - Rebase on commit, handy for amending earlier commits or to squash commits'
     echo 'soft([number]) - Unstage files and remove latest, or given number of commits. Work is not lost, only unstaged'
 }
-    
+
+############################
+# Other
+############################
+alias kraken='open -na "GitKraken" --args -p $(pwd)'
+
+
+############################
+# Plugins
+############################
 autoload -U promptinit; promptinit
 prompt pure
 
