@@ -319,6 +319,12 @@ alias bca='bin/createArtifacts'
 alias abi='artifacts/buildImages'
 
 # Functions
+# Internal function to check for fail in other functions
+function _checkForFail() {
+    if [ ! $? -eq 0 ]; then
+        exit 1
+    fi
+}
 # createArtifacts, buildImages and docker run
 function run(){
     port=${1:-8080}
@@ -326,10 +332,12 @@ function run(){
     echo '** createArtifacts **'
     echo '*********************'
     bin/createArtifacts
+    _checkForFail
     echo '*****************'
     echo '** buildImages **'
     echo '*****************'
     artifacts/buildImages
+    _checkForFail
     imageName=$(grep -o '"imageName": "[^"]*' serviceDefinition.json | grep -o '[^"]*$')
     echo '*********************************************'
     echo "** run dockerimage $imageName on port $port **"
