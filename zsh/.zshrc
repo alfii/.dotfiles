@@ -125,6 +125,15 @@ alias cdc='cd ~/code' #quickly go to the folder where you keeo your code
 alias cdp='cd ~/code/docker-env/checkout/portal'
 
 ########################
+# Internal functions
+########################
+function _checkForFail() {
+    if [ ! $? -eq 0 ]; then
+        exit 1
+    fi
+}
+
+########################
 # Git
 ########################
 
@@ -156,7 +165,7 @@ alias gra='git rebase --abort'
 alias grc='git rebase --continue'
 alias dry='git remote prune origin --dry-run && echo "would delete these local branches:" && git branch --merged | egrep -v "(^\*|master|development|develop|release*)"'
 alias prune='git remote prune origin && git branch --merged | egrep -v "(^\*|master|development|develop|release*)" | xargs git branch -d'
-alias copy='git branch -D copy && git branch copy && echo "Created branch copy"'
+alias copy='git branch -f copy && echo "Created branch copy"'
 alias cherry='git cherry-pick'
 alias parent='git show-branch -a | grep "\*" | grep -v `git rev-parse --abbrev-ref HEAD` | head -n1 | sed "s/.*\[\(.*\)\].*/\1/" | sed "s/[\^~].*//"'
 alias follow='git log --follow'
@@ -319,13 +328,6 @@ function dr(){
 alias bca='bin/createArtifacts'
 alias abi='artifacts/buildImages'
 
-# Functions
-# Internal function to check for fail in other functions
-function _checkForFail() {
-    if [ ! $? -eq 0 ]; then
-        exit 1
-    fi
-}
 # createArtifacts, buildImages and docker run
 function run(){
     port=${1:-8080}
