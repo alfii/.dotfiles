@@ -27,6 +27,7 @@ alias grdhem='git pull --rebase origin development'
 alias psapp='ps/hem-app'
 alias psada='ps/hem-adapter'
 alias pslis='ps/hem-listener'
+alias grihem='git rebase -i 5c8004706198dc4da0b517aa83c2a6a1cf1763ae'
 
 alias rmr='rm -rv resources && rm -v resources.tar.bz2'
 alias mvr='mv -v ../../Downloads/resources.tar.bz2 .'

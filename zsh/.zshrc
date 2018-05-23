@@ -110,6 +110,7 @@ unalias -m 'gcmsg'
 unalias -m 'gcp'
 unalias -m 'gps'
 unalias -m 'gfc'
+unalias -m 'follow'
 #interesting
 #git reset --hard ORIG_HEAD # reset, rebase and merge all save your original HEAD pointer into ORIG_HEAD
 
@@ -168,7 +169,6 @@ alias prune='git remote prune origin && git branch --merged | egrep -v "(^\*|mas
 alias copy='git branch -f copy && echo "Created branch copy"'
 alias cherry='git cherry-pick'
 alias parent='git show-branch -a | grep "\*" | grep -v `git rev-parse --abbrev-ref HEAD` | head -n1 | sed "s/.*\[\(.*\)\].*/\1/" | sed "s/[\^~].*//"'
-alias follow='git log --follow'
 
 # Functions #
 # Print git log pretty oneline
@@ -210,6 +210,13 @@ function show(){
 function showf(){
     commit=${1:-HEAD}
     git diff-tree --no-commit-id --name-only -r $commit
+}
+# Show what commits a file was in, defaults to ten commits
+function follow(){
+    : "${1?Missing file}"
+    amount=${2:-10}
+    file=$1
+    git --no-pager log -$amount --follow $file
 }
 # Show difference in commits between HEAD and given commit
 function gdc(){
