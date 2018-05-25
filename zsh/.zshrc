@@ -169,6 +169,7 @@ alias prune='git remote prune origin && git branch --merged | egrep -v "(^\*|mas
 alias copy='git branch -f copy && echo "Created branch copy"'
 alias cherry='git cherry-pick'
 alias parent='git show-branch -a | grep "\*" | grep -v `git rev-parse --abbrev-ref HEAD` | head -n1 | sed "s/.*\[\(.*\)\].*/\1/" | sed "s/[\^~].*//"'
+alias glg='git --no-pager log --grep '
 
 # Functions #
 # Print git log pretty oneline
