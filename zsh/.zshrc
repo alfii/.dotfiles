@@ -140,6 +140,7 @@ function _checkForFail() {
 
 # Aliases #
 alias gs='git status'
+alias gf='git fetch'
 alias ga='git add'
 alias ga.='git add .'
 alias gc='git checkout'
