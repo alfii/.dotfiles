@@ -396,10 +396,19 @@ function myfunctions(){
 }
 
 ############################
+# Kubernetes
+############################
+alias kc='kubectl'
+alias kcui='kubectl proxy'
+
+if [ $commands[kubectl] ]; then
+  source <(kubectl completion zsh)
+fi
+
+############################
 # Other
 ############################
 alias kraken='open -na "GitKraken" --args -p $(pwd)'
-
 
 ############################
 # Plugins
