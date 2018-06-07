@@ -168,6 +168,9 @@ alias dry='git remote prune origin --dry-run && echo "would delete these local b
 alias prune='git remote prune origin && git branch --merged | egrep -v "(^\*|master|development|develop|release*)" | xargs git branch -d'
 alias copy='git branch -f copy && echo "Created branch copy"'
 alias cherry='git cherry-pick'
+alias gcp='git cherry-pick'
+alias gcpa='git cherry-pick --abort'
+alias gcpc='git cherry-pick --continue'
 alias parent='git show-branch -a | grep "\*" | grep -v `git rev-parse --abbrev-ref HEAD` | head -n1 | sed "s/.*\[\(.*\)\].*/\1/" | sed "s/[\^~].*//"'
 alias glg='git --no-pager log -i --grep '
 
