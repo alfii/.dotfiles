@@ -277,6 +277,18 @@ function gps-f(){
     git push -d origin $branch
     git push
 }
+# Takes staged files and adds them to the desired commit
+# Argument is some text in the commit message you want the changes to be added to
+function grf(){
+    : "${1?Missing commit text}"
+    text=$1
+    commit=$(git rev-parse :/$text)
+    parent=$(git rev-parse $commit^)
+    echo $commit
+    echo $parent
+    git commit --fixup :/$text
+    GIT_SEQUENCE_EDITOR=true git rebase -i --autosquash $parent^
+}
 
 ###########################
 # Platfrom
