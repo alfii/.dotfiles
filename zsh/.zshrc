@@ -283,11 +283,9 @@ function grf(){
     : "${1?Missing commit text}"
     text=$1
     commit=$(git rev-parse :/$text)
-    parent=$(git rev-parse $commit^)
-    echo $commit
-    echo $parent
     git commit --fixup :/$text
-    GIT_SEQUENCE_EDITOR=true git rebase -i --autosquash $parent^
+    echo "Fixup into commit $commit"
+    GIT_SEQUENCE_EDITOR=true git rebase -i --autosquash $commit^
 }
 
 ###########################
