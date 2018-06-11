@@ -5,3 +5,25 @@
 	showUntrackedFiles = all
 [rebase]
 	autosquash = true
+
+[core]
+	editor = subl -n -w
+	excludesfile = /Users/espen/.gitignore_global
+[user]
+	name = Espen Kirkesæther Brun
+	email = ekb@patientsky.com
+[merge]
+	tool = p4merge
+[mergetool]
+	keepTemporaries = false
+	prompt = false
+[diff]
+	tool = p4merge
+[difftool]
+	prompt = false
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
