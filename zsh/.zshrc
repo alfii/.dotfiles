@@ -111,7 +111,6 @@ unalias -m 'gaa'
 unalias -m 'gp'
 unalias -m 'gcmsg'
 unalias -m 'gcp'
-unalias -m 'gps'
 unalias -m 'gfc'
 unalias -m 'follow'
 #interesting
@@ -155,6 +154,7 @@ alias gd='git --no-pager diff' # show whole diff in terminal
 alias gcam='git add -A && git commit -m' # commits all files, staged, unstaged and untracked. just apply the commit message
 alias gcamc='git add -A && git commit -m "cleaning"'
 alias gcm='git commit -m'
+alias gps='git push'
 alias gpl='git pull'
 alias stash='git stash'
 alias apply='git stash apply'
@@ -254,10 +254,6 @@ function gfc(){
 function soft(){
     number=${1:-1}
     git reset --soft head~$number && git reset
-}
-# Push branch and create upstream if doesn't exist
-function gps(){
-    git push -u origin $(git rev-parse --abbrev-ref HEAD)
 }
 # Create pull request
 function gpr(){
