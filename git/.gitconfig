@@ -1,3 +1,6 @@
+[user]
+	name = Alf-Håkon Pedersen
+	email = ap@patientsky.com
 [push]
 	# Push current branch even if you've never pushed it before
 	default = current
