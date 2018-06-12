@@ -440,7 +440,7 @@ function updateComment(){
         fi
         innerdirectories=($(ls -d */))
         for innerdir in "${innerdirectories[@]}" do
-            if [[ "$innerdir" = "docker/" ]] then
+            if [[ "$innerdir" = "docker/" ]]; then
                 cd docker
                 echo 'In directory $innerdir' on branch $(git rev-parse --abbrev-ref HEAD)
                 #sed -i '' "s/messagehandler//" Dockerfile
