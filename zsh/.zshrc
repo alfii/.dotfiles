@@ -154,6 +154,7 @@ alias gd='git --no-pager diff' # show whole diff in terminal
 alias gcam='git add -A && git commit -m' # commits all files, staged, unstaged and untracked. just apply the commit message
 alias gcamc='git add -A && git commit -m "cleaning"'
 alias gcm='git commit -m'
+alias gcf='git commit --fixup'
 alias gps='git push'
 alias gpl='git pull'
 alias stash='git stash'
