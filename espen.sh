@@ -27,7 +27,7 @@ alias grdhem='git pull --rebase origin development'
 alias psapp='ps/hem-app'
 alias psada='ps/hem-adapter'
 alias pslis='ps/hem-listener'
-alias grihem='git rebase -i 9f25138674595e2a1fb0a8de4fc8a9869ad92215'
+alias grihem='git rebase -i 38d4b26f345d6c37e3caa5a9bacb16c4f15c8da0'
 alias gcami='git add -A && git commit -m "cleaning independent"'
 
 alias rmr='rm -rv resources && rm -v resources.tar.bz2'
@@ -107,7 +107,10 @@ alias lpr='cd ~/code/lp-app && npm run dev'
 #    cmd> meteor mongo
 # 
 #db.users.findOne({'profile.name': "Espen Kirkesæther Brun"})
-#_id="pdDj2hGHu5Nazmf4H"
+#_id="pdDj2hGHu5Nazmf4H" 
+#db.users.findOne({'profile.name': "Lærer"})
+#_id="E6RMxwXRs3vDCfYay"
+#
 #db.users.findOne({_id})
 # 
 #db.users.update({_id},{$unset: {tour: true}})
