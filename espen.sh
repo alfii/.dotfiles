@@ -112,3 +112,6 @@ alias lpr='cd ~/code/lp-app && npm run dev'
 # 
 #db.users.update({_id},{$unset: {tour: true}})
 #db.users.remove({_id: ""})
+#show collections - list all collections
+#db.collection_name.find().pretty() - list all content in collection_name
+#
