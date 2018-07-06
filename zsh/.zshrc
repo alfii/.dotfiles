@@ -113,6 +113,7 @@ unalias -m 'gcmsg'
 unalias -m 'gcp'
 unalias -m 'gfc'
 unalias -m 'follow'
+unalias -m 'gcam'
 #interesting
 #git reset --hard ORIG_HEAD # reset, rebase and merge all save your original HEAD pointer into ORIG_HEAD
 
@@ -152,7 +153,7 @@ alias gb='git --no-pager branch'
 alias gcb='git checkout -b'
 alias gm='git merge'
 alias gd='git --no-pager diff' # show whole diff in terminal
-alias gcam='git add -A && git commit -m' # commits all files, staged, unstaged and untracked. just apply the commit message
+alias gcamm='git add -A && git commit -m' # commits all files, staged, unstaged and untracked. just apply the commit message
 alias gcamc='git add -A && git commit -m "cleaning"'
 alias gcm='git commit -m'
 alias gcf='git commit --fixup'
@@ -180,6 +181,14 @@ alias parent='git show-branch -a | grep "\*" | grep -v `git rev-parse --abbrev-r
 alias glg='git --no-pager log -i --grep '
 
 # Functions #
+# commit all files in staging area and prepend commit message with issue number from branch
+function gcam(){
+    : "${1?Missing message}"
+    message=$1
+    branch=$(git rev-parse --abbrev-ref HEAD)
+    substring=$(echo $branch | cut -d'-' -f1-2)
+    git add -A && git commit -m "$substring $message"
+}
 # Print git log pretty oneline
 function gl(){
     amount=${1:-30}
