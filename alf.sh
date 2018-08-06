@@ -1,9 +1,19 @@
 #!/bin/bash
 # Alf resource file
 plugins=(
-  git composer vi-mode
+  kubectl completion git composer vi-mode
 )
 
+
+# Import colorscheme from 'wal' asynchronously
+# &   # Run the process in the background.
+# ( ) # Hide shell job control messages.
+(cat ~/.cache/wal/sequences &)
+
+
+
+
+# MISC FUNCTIONS
 function updateDocker(){
     if [ -f "docker/Dockerfile" ]
     then
@@ -14,6 +24,7 @@ function updateDocker(){
         _updateDockerfiles
     fi
 }
+
 
 function _updateDockerfile(){
     # Change FROM baseimage to new and updated one
