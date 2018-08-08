@@ -297,7 +297,8 @@ function grf(){
     text=$1
     commit=$(git rev-parse :/$text)
     git commit --fixup :/$text
-    echo "Fixup into commit $commit"
+    echo "Attempting to rebase and fixup into commit $commit"
+    git --no-pager log -n 1 --pretty=format:%s $commit
     GIT_SEQUENCE_EDITOR=true git rebase -i --autosquash $commit^
 }
 
