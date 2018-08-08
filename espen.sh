@@ -84,13 +84,13 @@ function resourcesLocal(){
 ##################################################
 function rebaseold(){
 	git checkout HEM-125-improve-getuserinfo-performance
-	git rebase development
+	git rebase develop
 	git checkout HEM-489-flow-for-patient-loss
-	git rebase development
+	git rebase develop
 	git checkout hem125-commented-out-methods-that-does-all-calls
-	git rebase development
+	git rebase develop
 	git checkout shit-405-soap
-	git rebase development
+	git rebase develop
 }
 
 #*************************************************************************************************************
