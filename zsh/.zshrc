@@ -122,6 +122,14 @@ unalias -m 'gcam'
 ########################
 alias reload='source ~/.zshrc'
 
+#######################
+# Misc
+######################
+alias uuid='uuidgen | pbcopy'
+alias unload-blackfire='launchctl unload ~/Library/LaunchAgents/homebrew.mxcl.blackfire-agent.plist'
+alias load-blackfire='launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.blackfire-agent.plist'
+alias restart-blackfire='unload-blackfire && load-blackfire'
+
 ########################
 # Navigation shortcuts
 ########################
@@ -223,6 +231,10 @@ function show(){
         git --no-pager diff @~$commit^!
       fi
     fi
+}
+# Interactive show with fuzzy finder
+function showi(){
+    show $(git log --pretty=oneline | fzf | cut -d " " -f 1)
 }
 # Show files in latest or given commit
 function showf(){
