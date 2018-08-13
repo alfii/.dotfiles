@@ -224,6 +224,10 @@ function show(){
       fi
     fi
 }
+# Show interactive
+function showi(){
+    show $(git log --pretty=oneline | fzf | cut -d " " -f 1)
+}
 # Show files in latest or given commit
 function showf(){
     commit=${1:-HEAD}
