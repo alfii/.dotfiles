@@ -180,6 +180,7 @@ alias gcpc='git cherry-pick --continue'
 alias parent='git show-branch -a | grep "\*" | grep -v `git rev-parse --abbrev-ref HEAD` | head -n1 | sed "s/.*\[\(.*\)\].*/\1/" | sed "s/[\^~].*//"'
 alias glg='git --no-pager log -i --grep '
 alias gci='gc $(gb | fzf)'
+alias branch='git rev-parse --abbrev-ref HEAD'
 
 # Functions #
 # commit all files in staging area and prepend commit message with issue number from branch
