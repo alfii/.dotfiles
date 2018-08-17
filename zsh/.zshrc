@@ -121,6 +121,7 @@ unalias -m 'gcam'
 # Shell specific
 ########################
 alias reload='source ~/.zshrc'
+Alias zshrc='vim ~/.dotfiles/zsh/.zshrc'
 
 ########################
 # Navigation shortcuts
