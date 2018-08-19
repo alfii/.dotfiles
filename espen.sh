@@ -101,7 +101,7 @@ function rebaseold(){
 unalias -m 'lp'
 
 alias lp='cd ~/code/lp-app'
-alias lpr='cd ~/code/lp-app && npm run dev'
+alias lpr='cd ~/code/lp-app && yarn dev'
 
 #navigate to /site and
 #    cmd> meteor mongo
