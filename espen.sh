@@ -102,6 +102,7 @@ unalias -m 'lp'
 
 alias lp='cd ~/code/lp-app'
 alias lpr='cd ~/code/lp-app && yarn dev'
+alias grn='git pull --rebase origin nordic-dgbl'
 
 #navigate to /site and
 #    cmd> meteor mongo
