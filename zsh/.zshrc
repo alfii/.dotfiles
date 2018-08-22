@@ -251,9 +251,13 @@ function gdc(){
 # Rebase on commit, handy for amending earlier commits or to squash commits
 # Argument: Base to rebase on top of
 function gri(){
-    : "${1?Missing commit}"
-    commit=$1
-    git rebase -i $commit
+    commit=${1:-}
+    if [ -z "$commit" ]
+    then
+        git rebase -i $(git log --pretty=oneline | fzf | cut -d " " -f 1)
+    else
+        git rebase -i $commit
+    fi
 }
 # Checkout first branch that has the given number in it by grepping
 function gcg(){
