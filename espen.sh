@@ -83,13 +83,13 @@ function resourcesLocal(){
 # rebase some old branches to keep them up to date
 ##################################################
 function rebaseold(){
-	git checkout HEM-125-improve-getuserinfo-performance
-	git rebase develop
 	git checkout HEM-489-flow-for-patient-loss
+	git rebase develop
+	git checkout shit-405-soap
 	git rebase develop
 	git checkout hem125-commented-out-methods-that-does-all-calls
 	git rebase develop
-	git checkout shit-405-soap
+	git checkout HEM-125-improve-getuserinfo-performance
 	git rebase develop
 }
 
