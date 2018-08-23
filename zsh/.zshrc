@@ -157,7 +157,7 @@ alias gd='git --no-pager diff' # show whole diff in terminal
 alias gcamm='git add -A && git commit -m' # commits all files, staged, unstaged and untracked. just apply the commit message
 alias gcamc='git add -A && git commit -m "cleaning"'
 alias gcm='git commit -m'
-alias gcf='git commit --fixup'
+alias gcf='git commit --fixup $(git log --pretty=oneline | fzf | cut -d " " -f 1)'
 alias gps='git push'
 alias gpl='git pull'
 alias stash='git stash'
@@ -251,9 +251,13 @@ function gdc(){
 # Rebase on commit, handy for amending earlier commits or to squash commits
 # Argument: Base to rebase on top of
 function gri(){
-    : "${1?Missing commit}"
-    commit=$1
-    git rebase -i $commit
+    commit=${1:-}
+    if [ -z "$commit" ]
+    then
+        git rebase -i $(git log --pretty=oneline | fzf | cut -d " " -f 1)
+    else
+        git rebase -i $commit
+    fi
 }
 # Checkout first branch that has the given number in it by grepping
 function gcg(){
@@ -294,10 +298,13 @@ function gps-f(){
 # Takes staged files and adds them to the desired commit
 # Argument is some text in the commit message you want the changes to be added to
 function grf(){
-    : "${1?Missing commit text}"
-    text=$1
-    commit=$(git rev-parse :/$text)
-    git commit --fixup :/$text
+    commit=${1:-}
+    if [ -z "$commit" ]
+    then
+        commit=$(git log --pretty=oneline | fzf | cut -d " " -f 1)
+    fi
+    
+    git commit --fixup $commit
     echo "Attempting to rebase and fixup into commit $commit"
     git --no-pager log -n 1 --pretty=format:%s $commit
     GIT_SEQUENCE_EDITOR=true git rebase -i --autosquash $commit^
