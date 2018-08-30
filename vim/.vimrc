@@ -7,6 +7,9 @@ set expandtab
 set shiftwidth=4
 set ignorecase
 
+nnoremap p ]p
+nnoremap P ]P
+
 colorscheme darcula
 
 "Toggle semicolon at end of line"
