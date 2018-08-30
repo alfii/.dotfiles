@@ -5,6 +5,10 @@ set autoindent
 filetype plugin indent on
 set expandtab
 set shiftwidth=4
+set ignorecase
+
+nnoremap p ]p
+nnoremap P ]P
 
 colorscheme darcula
 
