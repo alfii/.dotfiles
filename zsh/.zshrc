@@ -241,6 +241,11 @@ function showf(){
 function gai(){
     git add $(git status --porcelain | fzf -m | awk '{ print $2 }')
 }
+# Commit files interactively
+function gaic(){
+    git add $(git status --porcelain | fzf -m | awk '{ print $2 }')
+    git commit
+}
 # Show what commits a file was in, defaults to ten commits
 function follow(){
     : "${1?Missing file}"
