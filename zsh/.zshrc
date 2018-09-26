@@ -244,6 +244,12 @@ function follow(){
     file=$1
     git --no-pager log -$amount --follow $file
 }
+# Show what commits a file was in, defaults to ten commits
+function followi(){
+    amount=${1:-10}
+    file=$(git status --porcelain | fzf | awk '{ print $2 }')
+    git --no-pager log -$amount --follow $file
+}
 # Show difference in commits between HEAD and given commit
 function gdc(){
     commit=${1:-master}
