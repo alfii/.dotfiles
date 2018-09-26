@@ -114,6 +114,7 @@ unalias -m 'gcp'
 unalias -m 'gfc'
 unalias -m 'follow'
 unalias -m 'gcam'
+unalias -m 'gai'
 #interesting
 #git reset --hard ORIG_HEAD # reset, rebase and merge all save your original HEAD pointer into ORIG_HEAD
 
@@ -147,7 +148,6 @@ alias gs='git status'
 alias gf='git fetch'
 alias ga='git add'
 alias ga.='git add .'
-alias gai='git add -i'
 alias gc='git checkout'
 alias gc.='git checkout .'
 alias gb='git --no-pager branch'
@@ -236,6 +236,10 @@ function showi(){
 function showf(){
     commit=${1:-HEAD}
     git diff-tree --no-commit-id --name-only -r $commit
+}
+# Add files interactively
+function gai(){
+    git add $(git status --porcelain | fzf -m | awk '{ print $2 }')
 }
 # Show what commits a file was in, defaults to ten commits
 function follow(){
