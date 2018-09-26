@@ -79,6 +79,13 @@ function resourcesLocal(){
 	dr ps/hem-terminal-app
 }
 
+function killhem(){
+	listener=$(kubectl get pods -n development | grep hem | grep -o '^.*listener-[a-z0-9]*-[a-z0-9]*-[a-z0-9]*')
+	adapter=$(kubectl get pods -n development | grep hem | grep -o '^.*adapter-[a-z0-9]*-[a-z0-9]*-[a-z0-9]*')
+	kubectl delete pod -n development $adapter $listener	
+}
+
+
 ##################################################
 # rebase some old branches to keep them up to date
 ##################################################
