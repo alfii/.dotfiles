@@ -16,9 +16,6 @@ export hemAdapterEventUrl=http://localhost:58364
 plugins=(git)
 
 # Aliases
-# Wip
-alias resolve='subl $(git status -s | cut -c4-)'
-
 # Specific
 alias hem='cd ~/code/health-economy-module'
 alias listener='cd ~/code/health-economy-module && sh startListener.sh'
