@@ -305,6 +305,10 @@ function gpr(){
         open "https://www.$remote/compare/master...$branch"
     fi
 }
+# Opens all files with merge conflict in sublime
+function resolve(){
+    subl -n $(git status --porcelain | awk '/UU/' | awk '{print $2}')
+}
 # Delete a branch on origin (bitbucket) and push the local version
 # Workaraound when force push is not allowd
 function gps-f(){
