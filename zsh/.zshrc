@@ -440,6 +440,14 @@ function myfunctions(){
 alias kraken='open -na "GitKraken" --args -p $(pwd)'
 
 
+# Functions
+# Remove files selected from git status
+function rmi(){
+    toBeRemoved=$(git status --porcelain | fzf -m | awk '{ print $2 }')
+    echo "Removing $toBeRemoved"
+    rm $toBeRemoved
+}
+
 ############################
 # Plugins
 ############################
