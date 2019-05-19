@@ -1,6 +1,8 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =4
-let g:netrw_dirhist_1='/Users/alf/code/uiprocess'
-let g:netrw_dirhist_2='/Users/alf/code/docker-java-single-instance/scripts'
-let g:netrw_dirhist_3='/Users/alf/.vagrant.d'
-let g:netrw_dirhist_4='/Users/alf/code/frontend/platform-demo-fe'
+let g:netrw_dirhist_cnt =6
+let g:netrw_dirhist_1='/Users/alf/qmk_firmware/keyboards'
+let g:netrw_dirhist_2='/Users/alf/qmk_firmware/keyboards/ergodox_ez'
+let g:netrw_dirhist_3='/Users/alf/qmk_firmware/keyboards/ergodox_ez/keymaps'
+let g:netrw_dirhist_4='/Users/alf/qmk_firmware/keyboards/ergodox_ez/keymaps/alfii_osx'
+let g:netrw_dirhist_5='/Users/alf/code/bamboo-scripts/build'
+let g:netrw_dirhist_6='/Users/alf/code/alfhello/alfhello-core/target/surefire-reports'

@@ -1,5 +1,7 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
+#
+export EDITOR="vim"
 
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
@@ -124,6 +126,7 @@ unalias -m 'gai'
 ########################
 alias reload='source ~/.zshrc'
 alias zshrc='vim ~/.dotfiles/zsh/.zshrc'
+alias uuid='uuidgen | pbcopy'
 
 ########################
 # Navigation shortcuts
@@ -459,3 +462,19 @@ source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fpath=($HOME/.zsh-completions $fpath)
 autoload -U compinit
 compinit
+
+
+
+alias nexus-token-odn='echo -n "Username: " && \
+read username && echo -n "Password (no OTP): " && \
+read -s password && echo && \
+echo -n "OTP (leave blank if disabled): " && \
+read -s otp && echo && \
+mkdir -p /tmp/ && \
+rm -f /tmp/nexus-token.sh &>/dev/null && \
+curl --silent -X POST https://odn1-nexus01-token.publicdns.zone/auth \
+--data "{\"username\": \"$username\", \"password\": \"$password$otp\"}" \
+-H "Content-Type: application/json" > /tmp/nexus-token.sh && \
+chmod +x /tmp/nexus-token.sh && /tmp/nexus-token.sh; rm -f /tmp/nexus-token.sh'
+export PATH="$HOME/.jenv/bin:$PATH"
+eval "$(jenv init -)"
